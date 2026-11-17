@@ -87,6 +87,8 @@ h2 + .list, h2 + .entry { margin-top: 26px; }
 .end { height: 60vh; }
 
 .visit { padding: 22px 0 10px; border-top: 1px solid var(--rule); }
+.more { display: block; margin: 26px auto 4px; font-family: var(--label); font-size: 15px; font-weight: 500; color: var(--ink); background: transparent; border: 1px solid var(--ink); padding: 10px 18px; cursor: pointer; }
+.more:hover { background: var(--ink); color: var(--paper); }
 .visit:first-of-type { border-top: 1px solid var(--ink); }
 .visit h3 { font-family: var(--display); font-weight: 400; font-size: clamp(24px, 2.6vw, 30px); line-height: 1.15; margin: 0 0 6px; text-wrap: balance; }
 .works { display: flex; flex-wrap: wrap; gap: 18px 16px; align-items: flex-start; margin: 14px 0 12px; }
@@ -128,7 +130,7 @@ h2 + .list, h2 + .entry { margin-top: 26px; }
   <header class="stage hero" data-stage="0" id="top">
     <div class="panel">
       <h1>Max Anglade</h1>
-      <p class="who">École Polytechnique student. Machine learning for quantum many-body physics, with Filippo Vicentini and Raphaël Berthier.<br>Driven by science curiosity, walking in art exhibitions.</p>
+      <p class="who">École Polytechnique student. Machine learning for quantum many-body physics, with Filippo Vicentini and Raphaël Berthier.<br>Driven by scientific curiosity, often found in art museums.</p>
       <div class="act">
         <a href="#research">See the research</a>
         <a href="https://github.com/MaxAngl">GitHub</a>
@@ -220,6 +222,7 @@ h2 + .list, h2 + .entry { margin-top: 26px; }
           <figure><a href="art/fayet-aquarelles.jpg" target="_blank" rel="noopener"><img src="art/fayet-aquarelles.jpg" alt="A wall of Fayet&rsquo;s flower watercolours on a green wall" loading="lazy" decoding="async"></a><figcaption>Gustave Fayet, flower watercolours</figcaption></figure>
         </div>
       </article>
+      <div id="more-visits" hidden>
       <article class="visit">
         <h3>Hilma af Klint: The Paintings for the Temple, 1906–1915</h3>
         <p class="meta">Grand Palais, Paris, summer 2026</p>
@@ -309,6 +312,8 @@ h2 + .list, h2 + .entry { margin-top: 26px; }
           <figure><a href="art/fragonard-verrou.jpg" target="_blank" rel="noopener"><img src="art/fragonard-verrou.jpg" alt="Fragonard, a couple by a bed, a man reaching for the bolt" loading="lazy" decoding="async"></a><figcaption>Jean-Honoré Fragonard, <i>The Bolt</i>, c. 1777</figcaption></figure>
         </div>
       </article>
+      </div>
+      <button class="more" type="button" aria-expanded="false" aria-controls="more-visits" data-more="Show 11 more visits">Show 11 more visits</button>
     </div>
   </section>
 
@@ -569,6 +574,19 @@ h2 + .list, h2 + .entry { margin-top: 26px; }
   if (mq && mq.addEventListener) mq.addEventListener('change', recolor);
   new MutationObserver(recolor).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 })();
+
+  (function () {
+    var btn = document.querySelector('.more'), box = document.getElementById('more-visits');
+    if (!btn || !box) return;
+    btn.addEventListener('click', function () {
+      var open = box.hidden;
+      box.hidden = !open;
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      btn.textContent = open ? 'Show fewer visits' : btn.getAttribute('data-more');
+      if (!open) document.getElementById('exhibitions').scrollIntoView({ behavior: 'auto', block: 'start' });
+      window.dispatchEvent(new Event('scroll'));
+    });
+  })();
 </script>
 </body>
 </html>
